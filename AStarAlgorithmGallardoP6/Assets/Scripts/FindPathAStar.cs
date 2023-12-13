@@ -26,13 +26,11 @@ public class PathMarker
     public override bool Equals(object obj)
     {
         if ((obj == null) || !this.GetType().Equals(obj.GetType()))
-        {
             return false;
-        }
+        
         else
-        {
             return location.Equals(((PathMarker)obj).location);
-        }
+        
     }
 
     public override int GetHashCode()
@@ -59,6 +57,7 @@ public class FindPathAStar : MonoBehaviour
 
     PathMarker lastPos;
     bool done = false;
+    bool hasStarted = false;
 
     void RemoveAllMarkers()
 
@@ -191,8 +190,15 @@ public class FindPathAStar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P)) BeginSearch();
-        if (Input.GetKeyDown(KeyCode.C) && !done) Search(lastPos);
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            BeginSearch();
+            hasStarted = true;
+        }
+        if(hasStarted)
+        {
+            if (Input.GetKey(KeyCode.C) && !done) Search(lastPos);
+        }
         if (Input.GetKeyDown(KeyCode.M)) GetPath();
     }
 }
